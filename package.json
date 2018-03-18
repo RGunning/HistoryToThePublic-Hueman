@@ -1,0 +1,41 @@
+{
+  "name": "http-hueman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "styles.css",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RGunning/HistoryToThePublic-Hueman.git"
+  },
+  "author": "RGunning",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/RGunning/HistoryToThePublic-Hueman/issues"
+  },
+  "homepage": "https://github.com/RGunning/HistoryToThePublic-Hueman#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean-css": "^3.9.3",
+    "gulp-sass": "^3.1.0",
+    "gulp-stylelint": "^7.0.0",
+    "stylelint": "^9.1.3",
+    "stylelint-config-recommended-scss": "^3.1.0",
+    "stylelint-declaration-use-variable": "^1.6.1",
+    "stylelint-no-unsupported-browser-features": "^2.0.0",
+    "stylelint-order": "^0.8.1",
+    "stylelint-scss": "^2.5.0",
+    "stylelint-selector-bem-pattern": "^2.0.0"
+  },
+  "browserslist": [
+    "defaults",
+    "ie >= 11",
+    "not ie_mob > 0",
+    "not OperaMini all",
+    "not op_mob > 0",
+    "not BlackBerry 7-10"
+  ]
+}

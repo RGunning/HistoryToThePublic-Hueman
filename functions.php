@@ -12,6 +12,19 @@
 * Also if the parent theme supports pluggable functions you can use function_exists( 'put_the_function_name_here' ) checks.
 */
 
+function http-hueman_enqueue_styles() {
+
+    $parent_style = 'hueman-main-style'; // This is 'twentyfifteen-style' for the Twenty Fifteen theme.
+
+    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'http-hueman-main-style',
+        get_stylesheet_directory_uri() . '/style.css',
+        array( $parent_style ),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action( 'wp_enqueue_scripts', 'http-hueman_enqueue_styles' );
+
 
 
 function hu_site_title() {

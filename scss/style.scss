@@ -1,0 +1,200 @@
+/*!
+Theme Name: Hueman Child 01
+Theme URI: 
+Description: HistoryToThePublic Hueman Child theme
+Author: Richard Gunning
+Author URI: http://rjgunning.com
+Template: hueman
+Version: 1.4.5
+*/
+
+$grey: #888; /* stylelint-disable-line color-no-hex */
+$http-blue: #2998d0; /* stylelint-disable-line color-no-hex */
+$link-blue: #1c99d3; /* stylelint-disable-line color-no-hex */
+$black: black;
+
+strong, b {
+  font-weight: bold;
+}
+
+p {
+  text-align: justify;
+
+  &.tab-item-title {
+    text-align: left;
+  }
+}
+
+i {
+  font-style:italic;
+}
+
+.btn{
+  background-color: $http-blue;
+
+  &:hover,
+  &:active,
+  &:focus{
+    background-color: darken($color: $http-blue, $amount: 10%)
+  }
+}
+
+.entry {
+  h2 {
+    font-size: 20px;
+  }
+}
+
+.site{
+  &-title{
+    float : left;
+    width:50%;
+
+    a {
+      float : left;
+    }
+
+    h1 {
+      padding-top : 7%;
+    }
+  }
+
+  &-description {
+    margin-left : 0;
+    padding :0;
+    font-size:0.4em;
+    font-style : normal;
+  }
+}
+
+/*  Social buttons */
+div.ssb-button{
+  &-twitter,
+  &-fblike,
+  &-googleplus {
+    width: 30%;
+  }
+}
+
+.post-list .post, .post-list .page {
+  overflow: visible;
+}
+
+.featured .post {
+  overflow: visible;
+}
+
+/* flex slider */
+.flexslider { height: 550px;}
+
+
+/* rounded image borders */
+.alx-posts,
+.alx-tab,
+.post-thumbnail {
+  img { 
+    border-radius: 4px;
+  }
+}
+
+
+/*rotating-tweet */
+.rtw{
+  &_main {
+    text-align: left;
+  
+    a {
+      color: $black;
+    }
+  }
+
+  &_id {
+    a {color:$black;}
+  }
+
+  &_url_link,
+  &_hashtag_link,
+  &_name a {
+    color:$http-blue;
+  }
+
+  &_name a {
+    font-size: 1.5em;
+  }
+
+  &_media {text-align:center;}
+
+  &_icon img,
+  &_media img {border-radius: 4px;}
+
+}
+
+/* Author */
+.author-bio {.bio-desc {
+    color: $grey;
+    font-size: 100%; 
+    line-height: 1.5em;
+  }
+
+  .bio-research {
+    color: $grey;
+    font-size: 100%;
+    line-height: 1.5em;
+  }
+
+  .bio-social {
+    padding-right:10px;
+  }
+}
+
+
+#authorlist{ 
+  div {
+    margin: 0 0 5px;
+  }
+
+  &.img{
+    float: left;
+    height: auto;
+    width: auto;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+
+    img {
+      display: inline-block;
+      margin: 0;
+      height: 64px;
+      width:auto;
+    }
+  }
+
+  &.desc {
+    width: 120px;
+    margin: 5px;
+    font-weight: normal;
+    text-align: center;
+  }
+}
+
+/* paypal */
+.widget_paypal_donations {
+  .paypal-donations {
+    text-align:center;
+  }
+}
+ 
+.entry .wp-caption-text {    padding: 0 8px 8px;}
+
+/* Legacy? */
+.leftdiv {
+  float: left;
+  width: 80%;
+  margin-bottom: 1em;
+}
+
+.rightdiv {
+  float: right;
+  width: 80%;
+  margin-bottom: 1em;
+}
