@@ -12,81 +12,88 @@
 * Also if the parent theme supports pluggable functions you can use function_exists( 'put_the_function_name_here' ) checks.
 */
 
-function http-hueman_enqueue_styles() {
-
-    $parent_style = 'hueman-main-style'; // This is 'twentyfifteen-style' for the Twenty Fifteen theme.
-
-    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
-    wp_enqueue_style( 'http-hueman-main-style',
-        get_stylesheet_directory_uri() . '/style.css',
-        array( $parent_style ),
-        wp_get_theme()->get('Version')
-    );
-}
-add_action( 'wp_enqueue_scripts', 'http-hueman_enqueue_styles' );
-
-
-
-function hu_site_title() {
-	// Text or image?
-	if ( false != hu_get_img_src_from_option( 'custom-logo' ) ) {
-		$logo = '<img src="'. hu_get_img_src_from_option( 'custom-logo' ) . '" alt="'.get_bloginfo('name').'">';
-	} else {
-		$logo = get_bloginfo('name');
-	}
-
-	if ( hu_is_checked('site-description') ) {
-		$description= get_bloginfo('description');
-	} else {
-		$description= '';
-	}
-
-	$link = '<a href="'.home_url('/').'" rel="home">'.$logo.'</a>';
-	$title = '<a href="'.home_url('/').'" rel="home">'.get_bloginfo('name').'</a>';
-
-	if ( is_front_page() || is_home() ) {
-		$sitename = '<div class="site-title">';
-		$sitename .= $link;
-		$sitename .= '<h1>'.$title.'</h1>';
-		$sitename .= '<p class="site-description">'.$description.'</p></div>';
-	} else {
-		$sitename = '<div class="site-title">';
-		$sitename .= $link;
-		$sitename .= '<h1>'.$title.'</h1>';
-		$sitename .= '<p class="site-description">'.$description.'</p></div>';
-	}
-
-	return $sitename;
+/*  Site name/logo and tagline callbacks
+/* ------------------------------------ */
+//@utility used on front end and partial refresh
+//@return string, either a textual or a logo imr src
+function hu_get_logo_title_HTTP( $is_mobile_menu = false ) {
+    // Text or image?
+    // Since v3.2.4, uses the WP 'custom_logo' theme mod option. Set with a filter.
+    $logo_src = false;
+    $is_logo_src_set = false;
+    $logo_or_title = hu_is_checked( 'display-header-title' ) ? get_bloginfo( 'name' ) : '';
+    // Do we have to display a logo ?
+    // Then, let's display the relevant one ( desktop or mobile ), if set
+    if ( apply_filters( 'hu_display_header_logo', hu_is_checked( 'display-header-logo' ) ) ) {
+        //if $is_mobile_menu, let's check if we have a specific logo for mobile set
+        if ( $is_mobile_menu ) {
+            $logo_src = hu_get_img_src_from_option( 'mobile-header-logo' );
+            $is_logo_src_set = false !== $logo_src && ! empty( $logo_src );
+        }
+        if ( ( $is_mobile_menu && ! $is_logo_src_set ) || ! $is_mobile_menu ) {
+            $logo_src = hu_get_img_src_from_option( 'custom-logo' );
+            $is_logo_src_set = false !== $logo_src && ! empty( $logo_src );
+        }
+        if ( $is_logo_src_set ) {
+            $logo_src = apply_filters( 'hu_header_logo_src' , $logo_src, $is_mobile_menu );
+            if( strpos($logo_src, '.svg') !== false ){
+                $logo_or_title = '<object type="image/svg+xml" data="'. $logo_src . '">' . get_bloginfo('name') . '</object>';
+            } else {
+                $logo_or_title = '<img src="'. $logo_src . '" alt="' . get_bloginfo('name'). '">';
+            }
+        }
+    }//if apply_filters( 'hu_display_header_logo', hu_is_checked( 'display-header-logo' )
+    return $logo_or_title;
 }
 
-// function add_facebook_app_id(){
-//         echo '<meta property="fb:app_id" content="1575818135986208">';
-// }
-// add_action('wp_head', 'add_facebook_app_id');
-//
-//function msapplication(){
-//	if (has_site_icon()) {
-//		// User set a Site Icon, do something awesome!
-//		get_site_icon_url()
-//	}
-//	else {
-//		// User didn't set a Site Icon, do something else. But still awesome.
-//	}
-//	$logo = ot_get_option('custom-logo');
-//	$output = '<meta name="msapplication-square70x70logo" content="small.jpg"/>';
-//	$output .= '<meta name="msapplication-square150x150logo" content="medium.jpg"/>';
-//	$output .= '<meta name="msapplication-wide310x150logo" content="wide.jpg"/>';
-//	$output .= '<meta name="msapplication-square310x310logo" content="large.jpg"/>';
-//	$output .= '<meta name="msapplication-TileColor" content="#2998d0"/>';
-//	$output .= '<meta name="msapplication-notification" content="frequency=30;polling-uri=http://notifications.buildmypinnedsite.com/?feed=http://historytothepublic.org/feed/&amp;id=1;polling-uri2=http://notifications.buildmypinnedsite.com/?feed=http://historytothepublic.org/feed/&amp;id=2;polling-uri3=http://notifications.buildmypinnedsite.com/?feed=http://historytothepublic.org/feed/&amp;id=3;polling-uri4=http://notifications.buildmypinnedsite.com/?feed=http://historytothepublic.org/feed/&amp;id=4;polling-uri5=http://notifications.buildmypinnedsite.com/?feed=http://historytothepublic.org/feed/&amp;id=5; cycle=1"/>';
-//echo $output;
-//}
-//add_action('wp_head', 'msapplication');
+function hu_print_logo_or_title( $echo = true, $is_mobile_menu = false ) {
+    $logo_or_title = hu_get_logo_title_HTTP( $is_mobile_menu );
+    // => If no logo is set and  ! hu_is_checked( 'display-header-title' ), the logo title is empty.
+    ob_start();
+        do_action( '__before_logo_or_site_title', $logo_or_title );
+        if ( ! empty( $logo_or_title ) ) {
+            ?>
+                <p class="site-title"><?php hu_do_render_logo_site_tite( $logo_or_title ) ?></p>
+            <?php
+        }
+        do_action( '__after_logo_or_site_title', $logo_or_title );
+    $html = ob_get_contents();
+    if ($html) ob_end_clean();
+    if ( $echo )
+        echo apply_filters('hu_logo_title', $html );
+    else
+        return apply_filters('hu_logo_title', $html );
+}
 
+function hu_do_render_logo_site_tite( $logo_or_title = null, $echo = true ) {
+    //typically, logo_or_title is not provided when partially refreshed from the customizer
+    if ( is_null( $logo_or_title ) || hu_is_ajax() ) {
+        $logo_or_title = hu_get_logo_title_HTTP();
+    }
+    // => If no logo is set and  ! hu_is_checked( 'display-header-title' ), the logo title is empty.
+    if ( ! empty( $logo_or_title ) ) {
+        $logoTitle = sprintf( '<a class="custom-logo-link" href="%1$s" rel="home" title="%3$s">%2$s</a>',
+                home_url('/'),
+                $logo_or_title,
+                sprintf( '%1$s | %2$s', get_bloginfo('name') , __('Home page', 'hueman') )
+            );
 
+        if ( $echo ) {
+           echo $logoTitle;
+        } else {
+            return $logoTitle;
+        }
+    }
+}
 
-
-
+ function hu_render_blog_description() {
+     printf( '<a class="site-description--link" href="%1$s" rel="home" title="%3$s"><h1 class="site-description--title">%2$s</h1></a>',
+                home_url('/'),
+                get_bloginfo('name'),
+                sprintf( '%1$s | %2$s', get_bloginfo('name') , __('Home page', 'hueman') )
+            );
+    echo '<p class="site-description--description">'.get_bloginfo( 'description' ).'</p>';
+}
 
 function my_new_contactmethods( $contactmethods ) {
     // Add Degree

@@ -1,0 +1,14 @@
+@mixin media-max($width) {
+  $width: $width - 0.0625em; //old 0.063em
+
+  @if $fix-mqs {
+    @if $fix-mqs <= $width {
+      @content;
+    }
+  }
+  @else {
+    @media screen and (max-width: $width) {
+      @content;
+    }
+  }
+}

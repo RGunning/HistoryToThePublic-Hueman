@@ -7,11 +7,15 @@ Author URI: http://rjgunning.com
 Template: hueman
 Version: 1.4.5
 */
+@import "mixins";
 
 $grey: #888; /* stylelint-disable-line color-no-hex */
 $http-blue: #2998d0; /* stylelint-disable-line color-no-hex */
 $link-blue: #1c99d3; /* stylelint-disable-line color-no-hex */
 $black: black;
+$http_white: white;
+
+$tablet-bp: 719px;
 
 strong, b {
   font-weight: bold;
@@ -45,25 +49,47 @@ i {
   }
 }
 
-.site{
-  &-title{
-    float : left;
-    width:50%;
-
-    a {
-      float : left;
+.logo-tagline-group {
+  .site{
+    &-title{
+      width:auto;
+      padding: 0 1rem 0 0
     }
 
-    h1 {
-      padding-top : 7%;
+    &-description {
+      line-height: 1.5;
+
+      &--title{
+        color:$http_white;
+        font-size:2rem;
+        font-style: normal;
+
+      }
+
+      &--description{
+        color:$http_white;
+        font-size:1.25rem;
+
+      }
     }
   }
 
-  &-description {
-    margin-left : 0;
-    padding :0;
-    font-size:0.4em;
-    font-style : normal;
+  .custom-logo-link {
+    object {
+      max-height: 7rem;
+      pointer-events: none; /* stylelint-disable-line plugin/no-unsupported-browser-features */
+    }
+  }
+}
+
+.mobile-title-logo-in-header {
+  .custom-logo-link {
+    display:flex!important; /* stylelint-disable-line declaration-no-important */
+ 
+    object {
+      height:2rem;
+      pointer-events: none; /* stylelint-disable-line plugin/no-unsupported-browser-features */
+    }
   }
 }
 
@@ -127,6 +153,13 @@ div.ssb-button{
   &_icon img,
   &_media img {border-radius: 4px;}
 
+  &_follow #follow-button {
+    background-color: $http_blue;
+
+    &:hover, &:focus {
+      background-color: darken($color: $http-blue, $amount: 10%);  
+    }
+  }
 }
 
 /* Author */
