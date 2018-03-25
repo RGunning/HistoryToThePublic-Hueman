@@ -13,7 +13,7 @@ $grey: #888; /* stylelint-disable-line color-no-hex */
 $http-blue: #2998d0; /* stylelint-disable-line color-no-hex */
 $link-blue: #1c99d3; /* stylelint-disable-line color-no-hex */
 $black: black;
-$http_white: white;
+$http-white: white;
 
 $tablet-bp: 719px;
 
@@ -60,14 +60,14 @@ i {
       line-height: 1.5;
 
       &--title{
-        color:$http_white;
+        color:$http-white;
         font-size:2rem;
         font-style: normal;
 
       }
 
       &--description{
-        color:$http_white;
+        color:$http-white;
         font-size:1.25rem;
 
       }
@@ -153,11 +153,22 @@ div.ssb-button{
   &_icon img,
   &_media img {border-radius: 4px;}
 
-  &_follow #follow-button {
-    background-color: $http_blue;
+  &_follow .twitter-follow-button {
+    width: auto;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: $http-blue;
+    color: $http-white;
+    text-align: left;
+    font-family: "Font Awesome 5 Brands";
 
     &:hover, &:focus {
       background-color: darken($color: $http-blue, $amount: 10%);  
+    }
+
+    &::before{
+      content: "\f099";
+      margin-right: 0.5em;
     }
   }
 }
